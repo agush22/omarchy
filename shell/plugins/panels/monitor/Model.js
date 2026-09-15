@@ -123,17 +123,13 @@ function monitorToggleCommand(name, enabled, internalMonitor) {
   }
 
   if (enabled) {
-    return [
-      "hyprctl",
-      "eval",
-      'hl.monitor({ output = "' + name + '", disabled = true }) if type(apply_monitor_layout) == "function" then pcall(apply_monitor_layout) end'
-    ]
+    return ["hyprctl", "eval", 'hl.monitor({ output = "' + name + '", disabled = true })']
   }
 
   return [
     "hyprctl",
     "eval",
-    'hl.monitor({ output = "' + name + '", mode = "preferred", position = "auto", disabled = false }) if type(apply_monitor_layout) == "function" then pcall(apply_monitor_layout) end'
+    'hl.monitor({ output = "' + name + '", mode = "preferred", position = "auto", disabled = false })'
   ]
 }
 

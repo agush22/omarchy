@@ -94,13 +94,13 @@ assertDeepEqual(
 )
 assertDeepEqual(
   monitor.monitorToggleCommand('DP-2', true, 'eDP-1'),
-  ['hyprctl', 'eval', 'hl.monitor({ output = "DP-2", disabled = true })'],
-  'monitor toggle command disables external monitor via hyprctl eval without layout hook'
+  ['hyprctl', 'eval', 'hl.monitor({ output = "DP-2", disabled = true }) if type(apply_monitor_layout) == "function" then pcall(apply_monitor_layout) end'],
+  'monitor toggle command disables external monitor via hyprctl eval with layout hook'
 )
 assertDeepEqual(
   monitor.monitorToggleCommand('DP-2', false, 'eDP-1'),
-  ['hyprctl', 'eval', 'hl.monitor({ output = "DP-2", disabled = false })'],
-  'monitor toggle command enables external monitor via hyprctl eval'
+  ['hyprctl', 'eval', 'hl.monitor({ output = "DP-2", mode = "preferred", position = "auto", disabled = false }) if type(apply_monitor_layout) == "function" then pcall(apply_monitor_layout) end'],
+  'monitor toggle command enables external monitor via hyprctl eval with preferred mode, auto position, and layout hook'
 )
 assertEqual(
   monitor.monitorToggleCommand('unsafe;cmd', false, 'eDP-1'),

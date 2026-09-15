@@ -122,7 +122,19 @@ function monitorToggleCommand(name, enabled, internalMonitor) {
     return ["omarchy-hyprland-monitor-internal", enabled ? "off" : "on"]
   }
 
-  return ["hyprctl", "eval", 'hl.monitor({ output = "' + name + '", disabled = ' + (enabled ? 'true' : 'false') + ' })']
+  if (enabled) {
+    return [
+      "hyprctl",
+      "eval",
+      'hl.monitor({ output = "' + name + '", disabled = true }) if type(apply_monitor_layout) == "function" then pcall(apply_monitor_layout) end'
+    ]
+  }
+
+  return [
+    "hyprctl",
+    "eval",
+    'hl.monitor({ output = "' + name + '", mode = "preferred", position = "auto", disabled = false }) if type(apply_monitor_layout) == "function" then pcall(apply_monitor_layout) end'
+  ]
 }
 
 if (typeof module !== "undefined") {
